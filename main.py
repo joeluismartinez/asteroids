@@ -19,6 +19,12 @@ def main() -> None:
     # Create the game window
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
+    # Define updatable and drawable groups
+    updatable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+
+    Player.containers = (updatable, drawable)
+
     # Create the player at the center of the screen
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
     
@@ -36,11 +42,16 @@ def main() -> None:
         # Clear the screen
         screen.fill(BLACK)  # Fill with black color
 
-        # Update game objects
-        player.update(dt)
+        # # Update game objects
+        # player.update(dt)
+        for item in drawable:
+            item.update(dt)
 
-        # Draw game objects
-        player.draw(screen)
+        # # Draw game objects
+        # player.draw(screen)
+        for item in updatable:
+            item.draw(screen)
+         
 
         # Update the display
         pygame.display.flip()
