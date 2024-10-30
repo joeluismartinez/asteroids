@@ -1,6 +1,8 @@
 import pygame
 from constants import SCREEN_WIDTH, SCREEN_HEIGHT
 from player import Player
+from asteroid import Asteroid
+from asteroidfield import AsteroidField
 
 # Constants
 BLACK = (0, 0, 0)
@@ -22,11 +24,18 @@ def main() -> None:
     # Define updatable and drawable groups
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
+    asteroids = pygame.sprite.Group()
+
 
     Player.containers = (updatable, drawable)
+    Asteroid.containers = (asteroids, updatable, drawable)
+    AsteroidField.containers = (updatable)
 
     # Create the player at the center of the screen
-    player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+    Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+
+    # Initialize a new AsteroidField object
+    AsteroidField()
     
     # Main game loop
     running = True
@@ -42,14 +51,10 @@ def main() -> None:
         # Clear the screen
         screen.fill(BLACK)  # Fill with black color
 
-        # # Update game objects
-        # player.update(dt)
-        for item in drawable:
+        for item in updatable:
             item.update(dt)
 
-        # # Draw game objects
-        # player.draw(screen)
-        for item in updatable:
+        for item in drawable:
             item.draw(screen)
          
 
