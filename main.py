@@ -26,13 +26,12 @@ def main() -> None:
     drawable = pygame.sprite.Group()
     asteroids = pygame.sprite.Group()
 
-
     Player.containers = (updatable, drawable)
     Asteroid.containers = (asteroids, updatable, drawable)
-    AsteroidField.containers = (updatable)
+    AsteroidField.containers = (updatable,)
 
     # Create the player at the center of the screen
-    Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+    player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
 
     # Initialize a new AsteroidField object
     AsteroidField()
@@ -56,7 +55,13 @@ def main() -> None:
 
         for item in drawable:
             item.draw(screen)
-         
+
+        # Check for collisions between player and asteroids
+        for asteroid in asteroids:
+            if player.check_collision(asteroid):
+                print("Game over!")
+                running = False
+                break
 
         # Update the display
         pygame.display.flip()
